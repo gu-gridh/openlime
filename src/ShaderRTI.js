@@ -302,7 +302,6 @@ vec4 data() {
 		if (this.mode == 'light') {
 			str += `
 	vec4 color = render(base);
-	color = srgb2linear(color);
 `;
 		} else {
 			str += `
@@ -336,7 +335,6 @@ vec4 data() {
 vec4 diffuse = texture(plane0, v_texcoord);
 float s = dot(light, normal);
 color = vec4(s * diffuse.xyz, 1);
-color = srgb2linear(color);
 `;
 					else
 						str += `

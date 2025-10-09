@@ -574,12 +574,14 @@ class UIBasic {
 	}
 
 	/**
-	 * Enables/disables viewer controllers
+	 * Enables/disables viewer controllers (except panzoom
 	 * @param {boolean} [on] = Enable/disable all the viewer controllers
 	 * @private
 	 */
 	setActiveControllers(on) {
 		for (let c of this.viewer.controllers) {
+			if(c != this.panzoom)  //panzoom is always active	
+				continue;
 			c.active = on;
 		}
 	}

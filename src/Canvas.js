@@ -21,7 +21,7 @@ class Canvas {
 	 * @param {Camera} camera - Scene camera instance
 	 * @param {Object} [options] - Configuration options
 	 * @param {Object} [options.layers] - Layer configurations mapping layer IDs to Layer instances
-	 * @param {boolean} [options.preserveDrawingBuffer=false] - Whether to preserve WebGL buffers until manually cleared
+	 * @param {boolean} [options.preserveDrawingBuffer=true] -Required for snapshots, disable for performance
 	 * @param {number} [options.targetfps=30] - Target frames per second for rendering
 	 * @param {boolean} [options.srgb=true] - Whether to enable sRGB color space or display-P3 for the output framebuffer
 	 * @param {boolean} [options.stencil=false] - Whether to enable stencil buffer support
@@ -33,7 +33,7 @@ class Canvas {
 	constructor(canvas, overlay, camera, options) {
 		Object.assign(this, {
 			canvasElement: null,
-			preserveDrawingBuffer: false,
+			preserveDrawingBuffer: true,
 			gl: null,
 			overlayElement: null,
 			camera: camera,

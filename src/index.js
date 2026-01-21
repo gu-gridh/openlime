@@ -314,7 +314,8 @@ function rtiTest(dataset) {
 		width: 150, 
 		height: 150, 
 		padding: 10, 
-		position: 'top-right' 
+		position: 'top-right',
+		viewportStyle: { stroke: 'red' }
 	};
 	
 //	setTimeout(() => { layer0.shader.setLight([0.4, 0.4, Math.sqrt(0.68)], ); lime.canvas.emit('update'); }, 2000);

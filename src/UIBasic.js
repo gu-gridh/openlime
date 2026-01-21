@@ -46,6 +46,7 @@ import { Minimap } from './Minimap'
  * - Keyboard shortcuts
  * - Scale bar
  * - Measurement tools
+ * - Minimap overlay
  * 
  * Built-in Actions:
  * - home: Reset camera view
@@ -124,7 +125,18 @@ class UIBasic {
 	 *     // Add measurement support
 	 *     pixelSize: 0.1,
 	 *     // Add attribution
-	 *     attribution: "© Example Source"
+	 *     attribution: "© Example Source",
+	 *    // Minimap configuration
+	 *    minimapOptions: {
+	 *        position: 'top-right',
+	 *        width: 150,
+	 *        height: 100,
+	 *        layer: {
+	 *            layout: 'deepzoom',
+	 *            type: 'rti',
+	 *            url: 'assets/rti/hsh/info.json'
+	 *        }
+	 *	  }
 	 * });
 	 * ```
 	 */

@@ -32,9 +32,19 @@ class Minimap {
             viewportStyle: {
                 stroke: 'rgba(255, 255, 255, 0.8)',
                 strokeWidth: 2,
-                fill: 'rgba(255, 255, 255, 0.1)'
+                fill: 'rgba(255, 255, 255, 0.1)',
+                vector_effect: 'non-scaling-stroke'
             } 
-        }, options);
+        });
+
+        // Apply options, but merge viewportStyle instead of replacing it
+        if (options) {
+            const { viewportStyle, ...otherOptions } = options;
+            Object.assign(this, otherOptions);
+            if (viewportStyle) {
+                Object.assign(this.viewportStyle, viewportStyle);
+            }
+        }
 
         this.element = null;
         this.minimapViewer = null;
@@ -156,10 +166,10 @@ class Minimap {
         
         // Create viewport polygon to show actual rotated shape
         this.viewportRect = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-        this.viewportRect.setAttribute('stroke', 'rgba(255, 255, 255, 0.8)');
-        this.viewportRect.setAttribute('stroke-width', '2');
-        this.viewportRect.setAttribute('fill', 'rgba(255, 255, 255, 0.1)');
-        this.viewportRect.setAttribute('vector-effect', 'non-scaling-stroke');
+        this.viewportRect.setAttribute('stroke',        this.viewportStyle.stroke);
+        this.viewportRect.setAttribute('stroke-width',  this.viewportStyle.strokeWidth);
+        this.viewportRect.setAttribute('fill',          this.viewportStyle.fill);
+        this.viewportRect.setAttribute('vector-effect', this.viewportStyle.vector_effect);
         
         svg.appendChild(this.viewportRect);
         this.element.appendChild(svg);

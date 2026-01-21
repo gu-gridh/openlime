@@ -5,6 +5,7 @@ import { ControllerPanZoom } from './ControllerPanZoom'
 import { Ruler } from "./Ruler"
 import { ScaleBar } from './ScaleBar'
 import { addSignals } from './Signals'
+import { Minimap } from './Minimap'
 
 /**
  * @typedef {Object} UIAction
@@ -157,7 +158,9 @@ class UIBasic {
 			showLightDirections: false,
 			enableTooltip: true,
 			controlZoomMessage: null, //"Use Ctrl + Wheel to zoom instead of scrolling" ,
-			menu: []
+			menu: [],
+			minimap: null,
+			minimapOptions: null
 		});
 
 		Object.assign(this, options);
@@ -430,6 +433,10 @@ class UIBasic {
 				this.toggleLightController();
 			if (this.actions.layers && this.actions.layers.active)
 				this.toggleLayers();
+
+			if (this.minimapOptions) {
+				this.createMinimap();
+			}
 
 			this.postInit();
 
@@ -877,6 +884,24 @@ class UIBasic {
 	updateMenu() {
 		for (let entry of this.menu)
 			this.updateEntry(entry);
+	}
+
+	createMinimap() {
+		// Auto-configure viewport from first layer if not specified
+		if (!this.minimapOptions.viewport) {
+			const firstLayer = Object.values(this.viewer.canvas.layers)[0];
+			if (firstLayer && firstLayer.boundingBox) {
+				this.minimapOptions.viewport = firstLayer.boundingBox;
+			}
+		}
+		
+		this.minimap = new Minimap(this.viewer, this.minimapOptions);
+	}
+
+	toggleMinimap(on) {
+		if (!this.minimap) return;
+		if (on === undefined) on = this.minimap.element.style.display === 'none';
+		this.minimap[on ? 'show' : 'hide']();
 	}
 
 	/**

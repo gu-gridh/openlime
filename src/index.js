@@ -303,6 +303,19 @@ function rtiTest(dataset) {
 	//const { home, fullscreen, rotate } = ui.actions;
 	//ui.actions = { home, fullscreen, rotate };
 	ui.actions.rotate.display = true;
+	ui.minimapOptions = { 
+		layer: { 
+			label: 'Minimap',
+			layout: 'deepzoom',
+			type: 'rti',
+			url: 'assets/rti/hsh/info.json',
+			normals: false
+		}, 
+		width: 150, 
+		height: 150, 
+		padding: 10, 
+		position: 'top-right' 
+	};
 	
 //	setTimeout(() => { layer0.shader.setLight([0.4, 0.4, Math.sqrt(0.68)], ); lime.canvas.emit('update'); }, 2000);
 }

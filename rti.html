@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>OpenLime</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8" />
+	<link href="/shared/oswald_font.css" rel="stylesheet">
+	<link rel="icon" type="image/png" href="">
+	<link rel="stylesheet" href="css/openlime.css" />
+	<link rel="stylesheet" href="../shared/shared_styles.css" />
+	<link rel="stylesheet" href="../shared/guide.css">
+	<script type="text/javascript" src="../../libs/jquery.js"></script>
+	<style>
+		html,
+		body {
+			margin: 0px;
+			padding: 0px;
+			height: calc(100% - 0px);
+			overflow: hidden;
+		}
+
+		#openlime {
+			position: relative;
+			height: 100%;
+		}
+
+		#openlime>canvas {
+			width: 100%;
+			height: 100%;
+			/* this is important, it would cause firefox flickering! */
+			overflow: hidden;
+		}
+
+		.relight {
+			position: relative;
+			width: 100%;
+			height: calc(100vh - 80px);
+		}
+
+		#rtiImageDropdown {
+			min-width: 70px;
+			height: 30px;
+			padding: 3px 10px 5px 10px;
+			color: white;
+			cursor: pointer;
+			z-index: 10;
+			top: 80px;
+			margin-left: calc(50% - 40px);
+			position: absolute;
+			background-color: rgba(0, 0, 0, 0.9);
+			box-shadow: 0.0rem 0.1rem 1rem rgba(0, 0, 0, 0.3) !important;
+			border-radius: 6px;
+			border-width: 0;
+			font-family: "Oswald", sans-serif !important;
+			font-size: 14px;
+			font-weight: 200;
+			-webkit-appearance: none;
+			user-select: none;
+			-webkit-user-select: none;
+			background-image: url("../../shared/dropdown-arrow.png");
+			background-size: 15px;
+			background-repeat: no-repeat;
+			background-position: calc(100% - 10px) 55%;
+		}
+
+		#rtiImageDropdown:focus {
+			outline: none;
+		}
+
+		button {
+			width: 15%;
+			cursor: pointer;
+		}
+	</style>
+</head>
+
+<body style="user-select:none; -webkit-user-select:none;">
+
+	<div id="rti-buttons-container">
+		<select id="rtiImageDropdown" onchange="updateRTIImage(this.value)">
+			<option value="https://data.dh.gu.se/saintsophia/rti/118-02-set1/" data-downloadable="1"
+				data-dl-url="https://data.dh.gu.se/saintsophia/rti/118-02-set1.zip">Set 1</option>
+			<option value="https://data.dh.gu.se/saintsophia/rti/118-02-set2/" data-downloadable="1"
+				data-dl-url="https://data.dh.gu.se/saintsophia/rti/118-02-set2.zip">Set 2</option>
+			<option value="https://data.dh.gu.se/saintsophia/rti/118-02-set3/" data-downloadable="1"
+				data-dl-url="https://data.dh.gu.se/saintsophia/rti/118-02-set3.zip">Set 3</option>
+			<option value="https://data.dh.gu.se/saintsophia/rti/118-02-set4/" data-downloadable="1"
+				data-dl-url="https://data.dh.gu.se/saintsophia/rti/118-02-set4.zip">Set 4</option>
+			<option value="https://data.dh.gu.se/saintsophia/rti/118-02-set5/" data-downloadable="1"
+				data-dl-url="https://data.dh.gu.se/saintsophia/rti/118-02-set5.zip">Set 5</option>
+			<option value="https://data.dh.gu.se/saintsophia/rti/118-02-set6/" data-downloadable="1"
+				data-dl-url="https://data.dh.gu.se/saintsophia/rti/118-02-set6.zip">Set 6</option>
+			<option value="https://data.dh.gu.se/saintsophia/rti/118-02-set7/" data-downloadable="1"
+				data-dl-url="https://data.dh.gu.se/saintsophia/rti/118-02-set7.zip">Set 7</option>
+			<option value="https://data.dh.gu.se/saintsophia/rti/118-02-set8/" data-downloadable="1"
+				data-dl-url="https://data.dh.gu.se/saintsophia/rti/118-02-set8.zip">Set 8</option>
+			<option value="https://data.dh.gu.se/saintsophia/rti/118-02-set9/" data-downloadable="1"
+				data-dl-url="https://data.dh.gu.se/saintsophia/rti/118-02-set9.zip">Set 9</option>
+			<option value="https://data.dh.gu.se/saintsophia/rti/118-02-set10/" data-downloadable="1"
+				data-dl-url="https://data.dh.gu.se/saintsophia/rti/118-02-set10.zip">Set 10</option>
+			<option value="https://data.dh.gu.se/saintsophia/rti/118-02-set11/" data-downloadable="1"
+				data-dl-url="https://data.dh.gu.se/saintsophia/rti/118-02-set11.zip">Set 11</option>
+			<option value="https://data.dh.gu.se/saintsophia/rti/118-02-set12/" data-downloadable="1"
+				data-dl-url="https://data.dh.gu.se/saintsophia/rti/118-02-set12.zip">Set 12</option>
+			<option value="https://data.dh.gu.se/saintsophia/rti/118-02-set13/" data-downloadable="1"
+				data-dl-url="https://data.dh.gu.se/saintsophia/rti/118-02-set13.zip">Set 13</option>
+			<option value="https://data.dh.gu.se/saintsophia/rti/118-02-set14/" data-downloadable="1"
+				data-dl-url="https://data.dh.gu.se/saintsophia/rti/118-02-set14.zip">Set 14</option>
+		</select>
+	</div>
+
+	<div id="openlime">
+		<div class="ui-overlay-container" style="height:300px; z-index:1000; pointer-events:none;  bottom:0px;">
+			<div id="instructions" style="bottom:125px; width:320px;">
+				<div class="instruction-closer" onclick="$('#instructions').hide();"></div>
+				Browse available RTI-sets with the menu at the top. Activate light controls and click and drag to change light direction.
+				</div>
+			</div>
+
+			<div class="guide-button compact" title="User Guide" style="bottom:23px"
+				onclick="$('#instructions').css('transform', 'scale(0.0)'); $('#guide').css('pointer-events', 'auto');$('#guide').css('opacity', '1.0');$('#guide-instructions-tools').css('transform', 'scale(1.0)');">
+				?</div>
+
+			<a id="download" target="_blank">
+				<div class="round-button download-button compact" style="bottom:23px" title="Download image">
+				</div>
+			</a>
+
+			<div id="trackball_position" class="round-button share-button compact deactivated" style="bottom:70px"
+				title="Copy link to view" onclick="logTrackballPosition();">
+				<div id="share-label" class="label-popup">Link copied</div>
+			</div>
+		</div>
+
+		<div id="guide"
+			onclick="$('#guide').css('pointer-events', 'none');$('#guide').css('opacity', '0.0');$('#guide-instructions-tools').css('transform', 'scale(0.5)'); $('#instructions').css('transform', 'scale(1.0)');">
+			<div class="guide-content">
+				<!-- <h1>User Guide: <br>Spatial Context</h1> -->
+				<div class="guide-instructions">
+					<div class="guide-instructions-intro">
+					</div>
+
+					<div id="guide-instructions-tools">
+						<h2></h2>
+
+						<div class="guide-instructions-item">
+							<div class="guide-instructions-item-icon" style="background-image:url()"></div>
+							<div class="guide-instructions-item-label">
+								<b>Shader layers.</b> Switch between <p>Light, Diffuse, Specular,</p> and <p>Normal</p> layers to enhance different details.
+							</div>
+						</div>
+
+						<div class="guide-instructions-item">
+							<div class="guide-instructions-item-icon"
+								style="background-image:url(https://data.dh.gu.se/ui-icons/frame_white.png)"></div>
+							<div class="guide-instructions-item-label">
+								<p><b>Frame object.</b></p> Changes the view to the original position.
+							</div>
+						</div>
+
+						<div class="guide-instructions-item">
+							<div class="guide-instructions-item-icon"
+								style="background-image:url(https://data.dh.gu.se/ui-icons/light-bulb_white.svg); background-position:5px 0px;">
+							</div>
+							<div class="guide-instructions-item-label">
+								<p><b>Color toggle.</b></p> Switches on or off the 3D model's color information. With the colors off and the light in the right direction, details will appear in higher contrast.
+							</div>
+						</div>
+
+						<!-- <div class="guide-instructions-item full-screen-option">
+							<div class="guide-instructions-item-icon"
+								style="background-image:url(https://data.dh.gu.se/ui-icons/expand_white.svg)"></div>
+							<div class="guide-instructions-item-label">
+							</div>
+						</div> -->
+
+						<div class="module-acknowledgement">
+							<p>The module was created with</p>
+							<p><a href="https://github.com/cnr-isti-vclab/openlime" target="_blank">OpenLime</a></p>
+						</div>
+
+						<div class="guide-closer">Close</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</body>
+
+<script src="js/openlime.js"></script>
+
+<script>
+
+	async function autodetectNormals(layout) {
+		if (layout == 'tarzoom') {
+			let response = await fetch('rti-folder/normals.tzi');
+			if (response.status == 200)
+				return true;
+		}
+		if (layout == 'deepzoom') {
+			let response = await fetch('rti-folder/normals.dzi');
+			if (response.status == 200)
+				return true;
+		}
+		if (layout == 'image') {
+			let response = await fetch('rti-folder/normals.jpg');
+			if (response.status == 200)
+				return true;
+		}
+		return false;
+	}
+
+	var lime = new OpenLIME.Viewer('#openlime', { background: 'var(--viewer-bg)' });
+	var currentLayer = null;
+
+	async function init() {
+		var initialRTIUrl = 'https://data.dh.gu.se/saintsophia/rti/118-02-set1/';
+		var infoUrl = initialRTIUrl + 'info.json';
+		currentLayer = new OpenLIME.Layer({
+			layout: 'deepzoom',
+			type: 'rti',
+			url: infoUrl,
+			// url: 'rti-folder/info.json',
+			normals: false,
+		});
+
+		lime.canvas.addLayer('RTI', currentLayer);
+		OpenLIME.Skin.setUrl('css/icons.svg');
+		let ui = new OpenLIME.UIBasic(lime, { skin: 'css/icons.svg', showLightDirections: true });
+		ui.actions.light.active = false;
+		ui.actions.layers.display = false;
+		lime.camera.maxFixedZoom = 1.5;
+		window.lime = lime;
+		updateDownloadButtonFor('https://data.dh.gu.se/saintsophia/rti/118-02-set1/');
+	}
+
+	function removePreviousLimeViewer() {
+		const selectors = ['.openlime-overlay', '.openlime-lightdir', '.openlime-layers-menu', '.openlime-toolbar', '#openlime canvas'];
+
+		selectors.forEach(selector => {
+			document.querySelectorAll(selector).forEach(element => {
+				element.parentNode.removeChild(element);
+			});
+		});
+
+		let allElementsRemoved = selectors.every(selector => document.querySelector(selector) === null);
+		return allElementsRemoved;
+	}
+
+	function updateRTIImage(url) {
+		let allElementsRemoved = removePreviousLimeViewer();
+
+		if (allElementsRemoved) {
+			if (lime && currentLayer) {
+				lime.canvas.removeLayer(currentLayer);
+				currentLayer = null;
+			}
+
+			let infoUrl = url + 'info.json';
+			lime = new OpenLIME.Viewer('#openlime', { background: 'black' });
+
+			let layer = new OpenLIME.Layer({
+				layout: 'deepzoom',
+				type: 'rti',
+				url: infoUrl,
+				normals: false
+			});
+
+			lime.canvas.addLayer('RTI', layer);
+			OpenLIME.Skin.setUrl('css/icons.svg');
+			let ui = new OpenLIME.UIBasic(lime, { skin: 'css/icons.svg', showLightDirections: true });
+			ui.toggleLightController(false); //light bulb svg off
+			//ui.actions.light.active = true;
+			ui.actions.layers.display = false;
+			lime.camera.maxFixedZoom = 1.5;
+			window.lime = lime;
+
+			document.getElementById("openlime").focus();
+		} else {
+			console.error("Not all elements were removed. Viewer update aborted.");
+		}
+		updateDownloadButtonFor(url);
+	}
+
+	function updateDownloadButtonFor(url) {
+		const sel = document.getElementById('rtiImageDropdown');
+		if (!sel) return;
+
+		const opt = [...sel.options].find(o => o.value === url) || sel.options[sel.selectedIndex];
+
+		const a = document.getElementById('download');
+		const btn = a.querySelector('.download-button');
+		const downloadable = opt?.dataset.downloadable === '1' && opt.dataset.dlUrl;
+
+		if (downloadable) {
+			a.setAttribute('href', opt.dataset.dlUrl);
+			btn.classList.remove('deactivated');
+		} else {
+			a.removeAttribute('href');
+			btn.classList.add('deactivated');
+		}
+	}
+
+	init();
+
+	setTimeout(hideInfo, 12000)
+
+	function hideInfo() {
+		$('#instructions').css('transform', 'scale(0.0)');
+	}
+
+</script>
+
+</html>

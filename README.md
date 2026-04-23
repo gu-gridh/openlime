@@ -9,7 +9,7 @@
 **OpenLIME** is jointly developed by [CRS4 Visual and Data-intensive Computing Group](https://www.crs4.it/en/research-and-development-sectors/vidic/) and [CNR ISTI - Visual Computing Lab](http://vcg.isti.cnr.it/). 
 
 ## Getting Started
-Install Visual Studio Code.
+Install Visual Studio Code and drag in the unzipped folder.
 
 1. Click the extensions tab on the left toolbar.
 ![Open extensions](./assets/Readme/screenshot1.png)

@@ -116,7 +116,7 @@ style="fill:#ffcc00;fill-opacity:1;stroke:#666666;stroke-width:0;stroke-miterlim
        transform="translate(6.0832644)">
           <image
         width="50" height="50"
-        xlink:href="../../shared/interface/frame.png"
+        xlink:href="../shared/interface/frame.png"
         />
     </g>
     <g
